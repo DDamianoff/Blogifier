@@ -3,7 +3,7 @@ name: Deploy to demo branch
 on:
   push:
     branches:
-      - main
+      - production
 
 jobs:
   deploy-demo:
