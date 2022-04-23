@@ -357,3 +357,5 @@ src/Blogifier/wwwroot/img/
 src/Blogifier/wwwroot/data/
 *.DotSettings
 *.db
+*.db-shm
+*-db-wal
