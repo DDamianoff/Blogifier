@@ -359,3 +359,5 @@ src/Blogifier/wwwroot/data/
 *.db
 *.db-shm
 *.db-wal
+src/Blogifier/wwwroot/themes/*/css
+
