@@ -35,22 +35,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        #substitute production appsettings entries to appsettings json file
-      - name: App Settings Variable Substitution
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: '${{ github.workspace }}/src/Blogifier/appsettings.Production.json'
-        env:
-          Blogifier.Salt: ${{ secrets.SALT }}
-          ReCaptcha.ReCaptchaSecretKey: ${{ secrets.GRECAPTCHASECRET }}
-          ReCaptcha.ReCaptchaSiteKey: ${{ secrets.GRECAPTCHAPUBLIC }}
-
       - uses: actions/checkout@v3
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+        #substitute production appsettings entries to appsettings json file
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.DOTNET_ROOT}}/src/Blogifier/appsettings.Production.json'
+        env:
+          Blogifier.Salt: ${{ secrets.SALT }}
+          ReCaptcha.ReCaptchaSecretKey: ${{ secrets.GRECAPTCHASECRET }}
+          ReCaptcha.ReCaptchaSiteKey: ${{ secrets.GRECAPTCHAPUBLIC }}
 
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
