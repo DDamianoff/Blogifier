@@ -42,7 +42,7 @@ jobs:
           files: '${{env.DOTNET_ROOT}}/src/Blogifier/appsettings.Production.json'
         env:
           Blogifier.Salt: ${{ secrets.SALT }}
-          ReCaptcha.ReCaptchaSecredKey: ${{ secrets.GRECAPTCHASECRET }}
+          ReCaptcha.ReCaptchaSecretKey: ${{ secrets.GRECAPTCHASECRET }}
           ReCaptcha.ReCaptchaSiteKey: ${{ secrets.GRECAPTCHAPUBLIC }}
 
       - uses: actions/checkout@v3
@@ -51,7 +51,7 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      
+
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
         with:
