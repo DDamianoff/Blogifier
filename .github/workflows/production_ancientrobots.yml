@@ -21,7 +21,16 @@ jobs:
         with:
           dotnet-version: '6.0.x'
           include-prerelease: true
-
+          
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: './src/Blogifier/appsettings.Production.json'
+        env:
+          Blogifier.Salt: ${{ secrets.SALT }}
+          ReCaptcha.ReCaptchaSecretKey: ${{ secrets.GRECAPTCHASECRET }}
+          ReCaptcha.ReCaptchaSiteKey: ${{ secrets.GRECAPTCHAPUBLIC }}
+          
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
