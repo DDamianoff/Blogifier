@@ -42,6 +42,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: view  the f^cking directory
+        run: echo $PATH; pwd
+        shell: bash
+
         #substitute production appsettings entries to appsettings json file
       - name: App Settings Variable Substitution
         uses: microsoft/variable-substitution@v1
