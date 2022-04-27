@@ -17,7 +17,7 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: Build and deploy ASP.Net Core app to an Azure Web App
+name: Configure, build and deploy ASP.Net Core app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: ancientrobots    # set this to the name of your Azure Web App
@@ -35,6 +35,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+        #substitute production appsettings entries to appsettings json file
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.DOTNET_ROOT}}/src/Blogifier/appsettings.Production.json'
+        env:
+          Blogifier.Salt: ${{ secrets.SALT }}
+          ReCaptcha.ReCaptchaSecredKey: ${{ secrets.GRECAPTCHASECRET }}
+          ReCaptcha.ReCaptchaSiteKey: ${{ secrets.GRECAPTCHAPUBLIC }}
+
       - uses: actions/checkout@v3
 
       - name: Set up .NET Core
