@@ -36,7 +36,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
+      - name: set up SQLite
+        run: 'mv ./src/Blogifier/Blog.db.Sample ./src/Blogifier/Blog.db'
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
         with:
