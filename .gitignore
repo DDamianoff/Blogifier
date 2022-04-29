@@ -356,6 +356,8 @@ MigrationBackup/
 src/Blogifier/wwwroot/img/
 src/Blogifier/wwwroot/data/
 *.DotSettings
-src/Blogifier/app_data/*
+*.db
+*.db-shm
+*.db-wal
 src/Blogifier/wwwroot/themes/*/css
 
