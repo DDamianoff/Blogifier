@@ -47,6 +47,8 @@ jobs:
           files: './src/Blogifier/appsettings.Production.json'
         env:
           Blogifier.Salt: ${{ secrets.SALT }}
+          Blogifier.DbProvider: SqlServer
+          Blogifier.ConnString: ${{ secrets.SQLSERVERCONNECTIONSTRING }}
           ReCaptcha.ReCaptchaSecretKey: ${{ secrets.GRECAPTCHASECRET }}
           ReCaptcha.ReCaptchaSiteKey: ${{ secrets.GRECAPTCHAPUBLIC }}
 
