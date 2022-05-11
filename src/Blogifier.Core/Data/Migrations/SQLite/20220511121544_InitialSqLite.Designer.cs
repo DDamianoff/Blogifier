@@ -6,17 +6,18 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Blogifier.Core.Data.Migrations
+#nullable disable
+
+namespace Blogifier.Core.Data.Migrations.SQLite
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20210404234633_Init")]
-    partial class Init
+    [DbContext(typeof(SqLiteContext))]
+    [Migration("20220511121544_InitialSqLite")]
+    partial class InitialSqLite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
 
             modelBuilder.Entity("Blogifier.Shared.Author", b =>
                 {

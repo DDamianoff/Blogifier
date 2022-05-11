@@ -1,10 +1,9 @@
 using Blogifier.Core.Data;
 using Blogifier.Core.Providers;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
+using Blogifier.Shared.Exceptions;
 
 namespace Blogifier.Core.Extensions
 {
@@ -12,30 +11,40 @@ namespace Blogifier.Core.Extensions
 	{
       public static IServiceCollection AddBlogDatabase(this IServiceCollection services, IConfiguration configuration)
       {
-			var section = configuration.GetSection("Blogifier");
-			var conn = section.GetValue<string>("ConnString");
+          var provider = configuration
+              .GetSection("Blogifier")
+              .GetValue<string>("DbProvider")
+              .ToUpper();
 
-			if (section.GetValue<string>("DbProvider") == "SQLite")
-				services.AddDbContext<AppDbContext>(o => o.UseSqlite(conn));
+            switch (provider)
+            {
+                case "SQLSERVER":
+                    Serilog.Log.Information("Selected SQLSERVER as dataBase provider");
+                    services.AddDbContext<AppDbContext, SqlServerContext>();
+                    break;
 
-			if (section.GetValue<string>("DbProvider") == "SqlServer")
-				services.AddDbContext<AppDbContext>(o => o.UseSqlServer(conn));
+                case "SQLITE":
+                    Serilog.Log.Information("Selected SQLITE as dataBase provider");
+                    services.AddDbContext<AppDbContext, SqLiteContext>();
+                    break;
 
-			if (section.GetValue<string>("DbProvider") == "Postgres")
-				services.AddDbContext<AppDbContext>(o => o.UseNpgsql(conn));
+                case "POSTGRE":
+                case "POSTGRES":
+                case "POSTGRESQL":
+                    Serilog.Log.Error("Attempted to use PostgresSQL as ataBase provider");
+                    throw new DiscardedFunctionalityException(
+                        "PostgresSQL is not supported in this fork of the project");
+                case "MYSQL":
+                    Serilog.Log.Error("Attempted to use MySql as dataBase provider");
+                    throw new DiscardedFunctionalityException(
+                        "MySQL is not supported in this fork of the project");
 
-			//TODO: this is not tested
-			if (section.GetValue<string>("DbProvider") == "MySql")
-			{
-				//services.AddDbContextPool<AppDbContext>(
-				//	dbContextOptions => dbContextOptions.UseMySql(
-				//		section.GetValue<string>("ConnString"),
-				//		new MySqlServerVersion(new Version(8, 0, 21)),
-				//		mySqlOptions => mySqlOptions.HasCharSet("utf8mb4", DelegationModes.ApplyToAll) //CharSetBehavior(CharSetBehavior.NeverAppend)
-				//	)
-				//);
-			}
-			services.AddDatabaseDeveloperPageExceptionFilter();
+                default:
+                    Serilog.Log.Fatal("Failed to configure dataBase provider, possibly bad config file");
+                    throw new Exception(
+                        $"Missing or bad configuration: DataBase type \"{provider}\" not supported, misspelled or null");
+            }
+            services.AddDatabaseDeveloperPageExceptionFilter();
 			return services;
       }
 

@@ -1,6 +1,6 @@
 using Blogifier.Core.Data;
-using Microsoft.EntityFrameworkCore;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace Blogifier.Tests
 {
@@ -15,14 +15,7 @@ namespace Blogifier.Tests
 				return path.Substring(0, path.IndexOf($"tests{Slash}Blogifier.Tests"));
 			}
 		}
-
-		public AppDbContext GetDbContext()
-		{
-			return new AppDbContext(new DbContextOptionsBuilder<AppDbContext>()
-				 .UseSqlite(GetDataSource()).Options);
-		}
-
-		private string GetDataSource()
+        private string GetDataSource()
 		{
 			return $"DataSource={ContextRoot}src{Slash}Blogifier{Slash}Blog.db";
 		}

@@ -29,9 +29,9 @@ jobs:
         env:
           Blogifier.Salt: ${{ secrets.SALT }}
           Blogifier.DbProvider: SqlServer
-          Blogifier.ConnString: ${{ secrets.SQLSERVERCONNECTIONSTRING }}
           ReCaptcha.ReCaptchaSecretKey: ${{ secrets.GRECAPTCHASECRET }}
           ReCaptcha.ReCaptchaSiteKey: ${{ secrets.GRECAPTCHAPUBLIC }}
+          ConnectionStrings.SQLSERVER: ${{ secrets.SQLSERVERCONNECTIONSTRING }}
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
